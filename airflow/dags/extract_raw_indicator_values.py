@@ -10,7 +10,6 @@ import hashlib
 def extract_indicator_values_raw(execution_date, **context):
     
     # configuracion basica 
-    
     # codigo del pais
     country_code = "PRY"
     # indicador economico (PIB en usd)
