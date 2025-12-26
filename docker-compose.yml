@@ -32,6 +32,7 @@ services:
     volumes:
       - ./airflow:/opt/airflow
       - ./scripts:/scripts
+      - ./sql:/opt/airflow/sql
     entrypoint: /bin/bash
     command: >
       -c "airflow db init &&
@@ -48,6 +49,9 @@ services:
       - .env
     volumes:
       - ./airflow:/opt/airflow
+      - ./sql:/opt/airflow/sql
+      - ./airflow/dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
     ports:
       - "8080:8080"
     command: webserver
@@ -62,6 +66,9 @@ services:
       - .env
     volumes:
       - ./airflow:/opt/airflow
+      - ./sql:/opt/airflow/sql
+      - ./airflow/dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
     command: scheduler
 
 volumes:

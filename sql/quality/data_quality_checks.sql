@@ -1,20 +1,38 @@
--- contamos filas donde faltan claves basicas
-SELECT COUNT(*) AS invalid_rows
-FROM mart.fact_indicator_values
-WHERE country_id IS NULL
-    OR indicator_id IS NULL
-    OR year IS NULL;
+-- filas con claves nulas
+DO $$
+BEGIN
+    IF (
+        SELECT COUNT(*)
+        FROM mart.fact_indicator_values
+        WHERE country_id IS NULL
+            OR indicator_id IS NULL
+            OR year IS NULL
+    ) > 0 THEN
+        RAISE EXCEPTION 'Data quality failed: NULL keys found';
+    END IF;
+END $$;
 
--- detectamos años imposibles
-SELECT COUNT(*) AS invalid_years
-FROM mart.fact_indicator_values
-WHERE year < 1960
-    OR year > EXTRACT(YEAR FROM CURRENT_DATE);
+-- años fuera de rango
+DO $$
+BEGIN
+    IF (
+        SELECT COUNT(*)
+        FROM mart.fact_indicator_values
+        WHERE year < 1960
+            OR year > EXTRACT(YEAR FROM CURRENT_DATE)
+    ) > 0 THEN
+        RAISE EXCEPTION 'Data quality failed: invalid years';
+    END IF;
+END $$;
 
--- buscamos indicadores con valores negativos
-SELECT COUNT(*) AS negative_values
-FROM mart.fact_indicator_values
-WHERE value < 0;
-
-
--- usamos estos para tener un control de la calidad de los datos, verficamos los datos finales quey ya estan en el mart
+-- valores negativos
+DO $$
+BEGIN
+    IF (
+        SELECT COUNT(*)
+        FROM mart.fact_indicator_values
+        WHERE value < 0
+    ) > 0 THEN
+        RAISE EXCEPTION 'Data quality failed: negative values';
+    END IF;
+END $$;
