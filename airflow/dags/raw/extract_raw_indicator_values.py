@@ -72,7 +72,7 @@ def extract_indicator_values_raw(execution_date, **context):
 
 # definimos el dag y la forma de ejecucion
 with DAG(
-    dag_id="extract_raw_indicator_values",
+    dag_id="03_extract_raw_indicator_values",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

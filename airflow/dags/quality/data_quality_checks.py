@@ -4,7 +4,7 @@ from datetime import datetime
 
 # creamos el DAG de controles de calidad de datos
 with DAG(
-    dag_id="data_quality_checks",
+    dag_id="10_data_quality_checks",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

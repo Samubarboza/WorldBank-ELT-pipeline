@@ -46,7 +46,7 @@ def extract_countries_raw(execution_date, **context):
 
 # dag airflow para ejecutar la funcion de extraccion
 with DAG(
-    dag_id="extract_raw_countries",
+    dag_id="02_extract_raw_countries",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

@@ -4,7 +4,7 @@ from datetime import datetime
 
 # definimos el dag de staging, configuramos el flujo, cuando puede ejecutarse y como se comporta
 with DAG(
-    dag_id="stg_countries",
+    dag_id="06_stg_countries",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

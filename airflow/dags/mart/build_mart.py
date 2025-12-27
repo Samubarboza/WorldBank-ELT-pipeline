@@ -5,7 +5,7 @@ from datetime import datetime
 
 # DAG encargado de construir el modelo analitico (MART)
 with DAG(
-    dag_id="build_mart",
+    dag_id="09_build_mart",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

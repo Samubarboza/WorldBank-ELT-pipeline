@@ -5,7 +5,7 @@ from datetime import datetime
 
 # definimos el DAG de staging para los valores de indicadores
 with DAG(
-    dag_id="stg_indicator_values",
+    dag_id="07_stg_indicator_values",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

@@ -3,7 +3,7 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from datetime import datetime
 
 with DAG(
-    dag_id="bootstrap_db",
+    dag_id="00_bootstrap_db",
     start_date=datetime(2024, 1, 1),
     schedule_interval=None,
     catchup=False,

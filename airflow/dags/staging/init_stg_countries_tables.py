@@ -3,9 +3,9 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from datetime import datetime
 
 with DAG(
-    dag_id="init_stg_countries_tables",
+    dag_id="04_init_stg_countries_tables",
     start_date=datetime(2024, 1, 1),
-    schedule_interval="@once",
+    schedule=None,
     catchup=False,
     tags=["init", "staging"],
     template_searchpath="/opt/airflow/sql"
