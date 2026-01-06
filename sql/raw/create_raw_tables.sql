@@ -1,7 +1,7 @@
 -- creamos la tabla cruda de paises en la base de datos dentro del esquema raw
 CREATE TABLE IF NOT EXISTS raw.raw_countries (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    payload JSONB NOT NULL,
+    payload JSONB NOT NULL, -- JSON almacenado en formato binario interno optimizado
     source_system TEXT NOT NULL,
     execution_date DATE NOT NULL,
     ingestion_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),

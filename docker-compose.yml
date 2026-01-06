@@ -28,6 +28,10 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas openpyxl
+      PYTHONPATH: /opt/airflow
+
     volumes:
       - ./airflow:/opt/airflow
       - ./scripts:/scripts
@@ -46,6 +50,9 @@ services:
         condition: service_completed_successfully
     env_file:
       - .env
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas openpyxl
+      PYTHONPATH: /opt/airflow
     volumes:
       - ./airflow:/opt/airflow
       - ./sql:/opt/airflow/sql
@@ -63,6 +70,9 @@ services:
         condition: service_completed_successfully
     env_file:
       - .env
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: pandas openpyxl
+      PYTHONPATH: /opt/airflow
     volumes:
       - ./airflow:/opt/airflow
       - ./sql:/opt/airflow/sql

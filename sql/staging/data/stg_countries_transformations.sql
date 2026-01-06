@@ -5,11 +5,13 @@ INSERT INTO stg.stg_countries (
     income_level,
     execution_date
 )
-SELECT
-    country->>'id',
-    country->>'name',
-    country->'region'->>'value',
-    country->'incomeLevel'->>'value',
+SELECT DISTINCT
+    country->>'id'                      AS country_code,
+    country->>'name'                    AS country_name,
+    country->'region'->>'value'         AS region,
+    country->'incomeLevel'->>'value'    AS income_level,
     r.execution_date
-FROM raw.raw_countries r,
-LATERAL jsonb_array_elements(r.payload->1) AS country;
+FROM raw.raw_countries r
+CROSS JOIN LATERAL jsonb_array_elements(r.payload->1) AS country
+WHERE country->>'id' IS NOT NULL
+ON CONFLICT (country_code, execution_date) DO NOTHING;

@@ -1,10 +1,13 @@
-
 CREATE TABLE IF NOT EXISTS stg.stg_indicator_values (
-    indicator_id TEXT,
-    indicator_name TEXT,
-    country_code TEXT,
-    country_name TEXT,
-    year INTEGER,
+    indicator_code TEXT NOT NULL,
+    country_code TEXT NOT NULL,
+    year INTEGER NOT NULL,
     value NUMERIC,
-    execution_date DATE
+    execution_date DATE NOT NULL,
+    CONSTRAINT uq_stg_indicator_values UNIQUE (
+        indicator_code,
+        country_code,
+        year,
+        execution_date
+    )
 );

@@ -17,7 +17,7 @@ def extract_indicator_values_raw(execution_date, **context):
     # nombre del sistema fuente
     source_system = "world_bank"
     # Fecha lógica del DAG (Airflow-native, no Proxy)
-    execution_date = context["logical_date"].date().isoformat()
+    execution_date = context["logical_date"].date()
 
     page = 1
     all_pages = []
@@ -27,11 +27,11 @@ def extract_indicator_values_raw(execution_date, **context):
             f"https://api.worldbank.org/v2/country/{country_code}/indicator/{indicator_code}"
             f"?format=json&page={page}"
         )
-
+        print('ACA ESTA LA URL', url)
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
-
+        
         all_pages.append(data)
 
         metadata = data[0]
@@ -60,15 +60,7 @@ def extract_indicator_values_raw(execution_date, **context):
 
     # ejecutamos la sentencia SQL en Postgres pasando los datos como parámetros seguros
     pg_hook = PostgresHook(postgres_conn_id="worldbank_postgres")
-    pg_hook.run(
-        insert_sql,
-        parameters=[
-            json.dumps(all_pages),
-            source_system,
-            execution_date,
-            request_hash
-        ]
-    )
+    pg_hook.run(insert_sql, parameters=[json.dumps(all_pages), source_system, execution_date, request_hash])
 
 # definimos el dag y la forma de ejecucion
 with DAG(

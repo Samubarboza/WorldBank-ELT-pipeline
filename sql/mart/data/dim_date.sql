@@ -1,7 +1,7 @@
--- cargamos la dimensión de fechas usando los años presentes en STAGING
-
 INSERT INTO mart.dim_date (year)
 SELECT DISTINCT
     year
 FROM stg.stg_indicator_values
+WHERE year IS NOT NULL
+    AND year BETWEEN 1960 AND EXTRACT(YEAR FROM CURRENT_DATE)
 ON CONFLICT (year) DO NOTHING;

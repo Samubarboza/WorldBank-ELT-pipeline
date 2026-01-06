@@ -8,16 +8,16 @@ import hashlib
 
 # funciona para extraer los datos crudo de la api e irsertar datos en la tabla 
 def extract_countries_raw(execution_date, **context):
-    execution_date = context["logical_date"].isoformat()
-    # aca hacemos la llamada a la api
+    execution_date = context["logical_date"].date()
     url = "https://api.worldbank.org/v2/country?format=json&per_page=400"
     response = requests.get(url)
     response.raise_for_status()
     payload = response.json()
 
-    # metadata
+    # metadata para indicar de donde viene el dato de la api - utilizamos para auditar, rastraer origen etc
     source_system = "world_bank"
 
+    # creamos este hash para evitar datos duplicados en la db - si el programa ve el mismo hash cuando hay dos ejecuciones, no guarda nada en la db
     request_string = f"countries_{execution_date}"
     request_hash = hashlib.md5(request_string.encode()).hexdigest()
 
@@ -33,16 +33,11 @@ def extract_countries_raw(execution_date, **context):
         ON CONFLICT (request_hash) DO NOTHING;
     """
 
+# conexion con la base de datos
     pg_hook = PostgresHook(postgres_conn_id="worldbank_postgres")
-    pg_hook.run(
-        insert_sql,
-        parameters=[
-            json.dumps(payload),
-            source_system,
-            execution_date,
-            request_hash
-        ]
-    )
+
+# insertamos los datos a la base de datos
+    pg_hook.run(insert_sql, parameters=[json.dumps(payload), source_system, execution_date, request_hash])
 
 # dag airflow para ejecutar la funcion de extraccion
 with DAG(

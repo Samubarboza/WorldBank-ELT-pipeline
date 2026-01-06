@@ -1,4 +1,12 @@
--- filas con claves nulas
+-- fact vacío (crítico)
+DO $$
+BEGIN
+    IF (SELECT COUNT(*) FROM mart.fact_indicator_values) = 0 THEN
+        RAISE EXCEPTION 'Data quality failed: fact table is empty';
+    END IF;
+END $$;
+
+-- claves nulas
 DO $$
 BEGIN
     IF (
@@ -6,7 +14,9 @@ BEGIN
         FROM mart.fact_indicator_values
         WHERE country_id IS NULL
             OR indicator_id IS NULL
+            OR date_id IS NULL
             OR year IS NULL
+            OR execution_date IS NULL
     ) > 0 THEN
         RAISE EXCEPTION 'Data quality failed: NULL keys found';
     END IF;
