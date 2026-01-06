@@ -1,4 +1,4 @@
-📄 **Spanish version:** see `README_ES.md`
+📄 **Spanish version:** [README_ES.md](README_ES.md)
 
 # World Bank ELT Pipeline
 
