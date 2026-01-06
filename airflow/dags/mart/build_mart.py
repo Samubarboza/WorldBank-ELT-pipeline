@@ -40,3 +40,6 @@ with DAG(
         postgres_conn_id="worldbank_postgres",
         sql="mart/data/fact_indicator_values.sql"
     )
+
+    # dependencias obligatorias
+    [dim_country, dim_indicator, dim_date] >> fact

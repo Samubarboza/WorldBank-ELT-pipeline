@@ -3,6 +3,9 @@ logs/
 *.pid
 airflow.cfg
 webserver_config.py
+airflow/data/excel/
+
+
 
 # Python
 __pycache__/

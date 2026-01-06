@@ -11,7 +11,7 @@ def extract_indicator_values_raw(execution_date, **context):
     
     # configuracion basica 
     # codigo del pais
-    country_code = "PRY"
+    country_code = "BRA"
     # indicador economico (PIB en usd)
     indicator_code = "NY.GDP.MKTP.CD"
     # nombre del sistema fuente
